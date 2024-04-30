@@ -1,0 +1,102 @@
+
+/*
+ Faça um programa que apresente o seguinte menu:
+1 - Cadastrar pessoa (nome, idade e sexo)
+2 - Buscar por nome
+3 - Média das idades dos homens
+4 - Média das idades das mulheres
+5 - Quantidade de mulheres com menos de 18 anos
+6 - Sair
+Deve ser utilizado sub-rotinas*/
+package metodosEFuncoes;
+
+import javax.swing.*;
+
+public class funcao3CadastrarPessoa {
+
+    public static void main(String[] args) {
+        int n = 100;
+        String[] nome = new String[n];
+        String[] sexo = new String[n];
+        int[] idade = new int[n];
+        int count = 0;
+        int op = 0;
+        int somaIdadeH = 0;
+        int countH = 0;
+        int somaIdadeM = 0;
+        int countM = 0;
+        int countM18 = 0;
+
+        do {
+            op = menu();
+            if(op == 1) cadastrarPessoa(nome, sexo, idade, count);
+            if(op == 2) buscaNome(nome, sexo, idade);
+            if(op == 3) mediaIdadeHomens(idade, sexo, count, somaIdadeH, countH);
+            if(op == 4) mediaIdadeMulheres(idade, sexo, count, somaIdadeM, countM);
+            if(op == 5) mulheresMenores(idade, sexo, count, countM18);
+
+        }while(op!=6);
+    }
+
+    public static int menu() {
+        String m = """
+                1 - Cadastrar pessoa
+                2 - Buscar por nome
+                3 - Média de idade dos homens
+                4 - Média de idade das mulheres
+                5 - Quantidade de mulheres com menos de 18 anos
+                6 - Sair 
+                """;
+        String opcao = JOptionPane.showInputDialog(m);
+        return Integer.parseInt(opcao);
+    }
+
+    public static void cadastrarPessoa(String[] nome, String[] sexo, int[] idade, int count){
+        if(count<= nome.length) {
+            nome[count] = JOptionPane.showInputDialog("Nome :");
+            idade[count] = Integer.parseInt(JOptionPane.showInputDialog("Idade :"));
+            sexo[count] = JOptionPane.showInputDialog("Sexo (M/F):");
+            count++;
+        }
+    }
+    
+    public static void buscaNome(String[] nome, String[] sexo, int[] idade) {
+        String nomeBusca = JOptionPane.showInputDialog("Nome que deseja buscar:");
+        String resp = "Nome não encontrado!";
+        for(int i = 0; i < nome.length; i++) {
+            if (nomeBusca.equalsIgnoreCase(nome[i])){
+                resp = "Nome: " + nome[i] + ", idade: " + idade[i] + ", sexo: " + sexo[i];
+            }
+        }
+        JOptionPane.showMessageDialog(null, resp);
+    }
+
+    public static void mediaIdadeHomens(int[] idade, String[] sexo, int count, int somaIdadeH, int countH) {
+        for (int i = 0; i < count; i++) {
+            if (sexo[i].equalsIgnoreCase("m")) {
+                somaIdadeH += idade[i];
+                countH++;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Média de idade dos homens: " + somaIdadeH/countH);
+    }
+    
+    public static void mediaIdadeMulheres(int[] idade, String[] sexo, int count, int somaIdadeM, int countM){
+        for (int i = 0; i < count; i++) {
+            if (sexo[i].equalsIgnoreCase("f")) {
+                somaIdadeM += idade[i];
+                countM++;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Média de idade dos homens: " + somaIdadeM/countM);
+    }
+
+    public static void mulheresMenores(int[] idade, String[] sexo, int count, int countM18) {
+        for (int i = 0; i < count; i++) {
+            if (sexo[i].equalsIgnoreCase("f") && idade[i] <18) {
+                countM18++;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Mulheres menores de 18 anos: " + countM18);
+    }
+}
